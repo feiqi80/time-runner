@@ -1,0 +1,42 @@
+{
+  "name": "time-countdown",
+  "version": "0.0.1",
+  "description": "",
+  "keywords": [],
+  "main": "./dist/time-countdown.umd.js",
+  "module": "./dist/time-countdown.es.js",
+  "types": "./dist/time-countdown.d.ts",
+  "type": "module",
+  "author": "feiqi",
+  "license": "MIT",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --port 3001"
+  },
+  "files": [
+    "dist"
+  ],
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "react-dom": ">=16.8.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.56",
+    "@typescript-eslint/parser": "^8.44.0",
+    "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "less": "^4.4.1",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.8",
+    "vite-plugin-dts": "^4.5.4",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.18"
+  }
+}
