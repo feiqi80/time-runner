@@ -14,46 +14,82 @@ type TransMode = "card" | "cube-v"| "cube-h";
 
 const f = "HH:mm:ss";
 
+const getTimeDiff = (endTime: string) => {
+  const diffMs = dayjs(endTime).diff(dayjs());
+
+  if (diffMs <= 0) {
+    return "000:00:00:00";
+  }
+
+  const totalSeconds = Math.floor(diffMs / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  const t =`${`${days}`.padStart(3, "0")}:${`${hours}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}:${`${seconds}`.padStart(2, "0")}`;
+
+  return t;
+}
+
 
 interface PropsType {
   mode: TransMode;
+  endTime?: string;
+}
+
+interface RefType {
+  t: number | null;
 }
 
 const TimeCountdown = (props: PropsType) => { 
-  const { mode } = props; 
-  // console.log("dayjs = ", dayjs().format(f));
-  const [time, setTime] = useState(dayjs().format(f));
-  useEffect(() => {
-    setInterval(() => {
-      setTime(dayjs().format(f));
-    }, 1000);
-  }, [])
+  const { mode, endTime } = props; 
+  const [time, setTime] = useState(endTime ? getTimeDiff(endTime) : dayjs().format(f));
+  const aRef = useRef<RefType>({
+    t: null
+  })
 
   useEffect(() => {
-    console.log("time】】】 = ", time);
-  }, [])
+    if (aRef.current.t) {
+      clearInterval(aRef.current.t);
+      aRef.current.t = null;
+    }
+    aRef.current.t = setInterval(() => {
+      setTime(endTime ? getTimeDiff(endTime) :  dayjs().format(f));
+    }, 1000);
+  }, [endTime])
 
   const cardDom = () => {
     const arr = time.split(":");
-    const hList = arr[0].split("");
-    const mList = arr[1].split("");
-    const sList = arr[2].split("");
+    const hList = arr[arr.length - 3].split("");
+    const mList = arr[arr.length - 2].split("");
+    const sList = arr[arr.length - 1].split("");
+    const dList = arr.length === 4 && arr[0] !== "000" ? arr[0].split("") : [];
+
+    const dListDom = dList.map((ele: string, i: number) => {
+      return <CardNumber key={i} mode={mode} time={+ele} limit={endTime ? -9 : 9} />
+    })
+
     return (
       <>
+        {/* 天 */}
+        {dListDom.length 
+        ? <>{dListDom}<em>:</em></> 
+        : null
+        }        
         {/* 小时：十位数 */}
-        <CardNumber mode={mode} time={+hList[0]} limit={2} />
+        <CardNumber mode={mode} time={+hList[0]} limit={endTime ? -2 : 2} />
         {/* 小时：个位数 */}
-        <CardNumber mode={mode} time={+hList[1]} limit={9} />
+        <CardNumber mode={mode} time={+hList[1]} limit={endTime ? -9 : 9} />
         <em>:</em>
         {/* 分钟：十位数 */}
-        <CardNumber mode={mode} time={+mList[0]} limit={5} />
+        <CardNumber mode={mode} time={+mList[0]} limit={endTime ? -5 : 5} />
         {/* 分钟：个位数 */}
-        <CardNumber mode={mode} time={+mList[1]} limit={9} />
+        <CardNumber mode={mode} time={+mList[1]} limit={endTime ? -9 : 9} />
         <em>:</em>
         {/* 秒：十位数 */}
-        <CardNumber mode={mode} time={+sList[0]} limit={5} />
+        <CardNumber mode={mode} time={+sList[0]} limit={endTime ? -5 : 5} />
         {/* 秒：个位数 */}
-        <CardNumber mode={mode} time={+sList[1]} limit={9} />
+        <CardNumber mode={mode} time={+sList[1]} limit={endTime ? -9 : 9} />
       </>      
     );
   }
@@ -62,25 +98,6 @@ const TimeCountdown = (props: PropsType) => {
     <div className="time-countdown">
       {cardDom()}
     </div>
-    // <div className="clock-page">
-    //   <div className="clock">
-    //     {cardDom("card")}
-    //   </div>
-
-    //   <div className="clock">
-    //     {cardDom("cube")}
-    //     <span>平面（无透视）</span>
-    //   </div>
-
-    //   <div className="clock">
-    //     {cardDom("cube-3d-v")}
-    //     <span>透视</span>
-    //   </div>
-
-    //   <div className="clock">
-    //     {cardDom("cube-3d-h")}
-    //   </div>
-    // </div>
   );
 }
 
@@ -158,7 +175,12 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
    */
   const makeDom = () => {
     const { t } = tRef.current!;
-    const nextT = t >= limit ? 0 : (t + 1);
+    let nextT = t;
+    if (limit > 0) {
+      nextT = t >= limit ? 0 : (t + 1);
+    } else {
+      nextT = t <= 0 ? Math.abs(limit) : (t - 1);
+    }
 
     switch (mode) {
       case "card": {
@@ -175,14 +197,6 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
           </div>
         );
       }
-      // case "cube": {
-      //   return (
-      //     <div className={`clock-cube ${trans ? "run" : ""}`}>
-      //       <p>{t}</p>
-      //       <p>{nextT}</p>
-      //     </div>
-      //   );
-      // }
       case "cube-v": {
         return (
           <div className={`clock-cube-3d-v ${trans ? "run" : ""}`}>

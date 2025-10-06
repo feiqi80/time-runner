@@ -3,32 +3,19 @@
 @card-bg-color: #333;
 @card-border-color: #999;
 
-// .time-countdown {
-//   height: 100%;
-//   overflow: hidden;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-around;
-// }
 
 .time-countdown {
-  width: 350px;
+  width: max-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
   user-select: none;
   position: relative;
-  // border: solid 1px red;
   em {
     font-size: 50px;
     font-style: normal;
     padding-bottom: 10px;
-  }
-  span {
-    position: absolute;
-    top: -20px;
-    left: 0;
   }
 }
 
@@ -47,7 +34,7 @@
     left: 0;
     background-color: #999;
     width: 100%;
-    height: 2px;
+    height: 1.5px;
     z-index: 3;
     overflow: hidden; // edge浏览器需要设置此属性，否则分割线会有闪现现象。
   }
@@ -86,13 +73,13 @@
   .clock-f {
     p {
       &:nth-child(1) {
-        line-height: @card-h;
+        line-height: @card-h - 2; // 由于分割线的的缘故，为了看起来要像两个半张卡片拼接的效果，而不是被分割线遮住的效果（数字8和3能看出效果和区别），所以这里向下偏移一点。
         transform-origin: bottom;
         backface-visibility: hidden;
         border-radius: 7px 7px 0 0;
       }
       &:nth-child(2) {
-        line-height: 0; 
+        line-height: 2px; // 原理同上面的@card-h - 2
         border-radius: 0 0 6px 6px;
       }
     }
@@ -109,11 +96,11 @@
   .clock-b {
     p {
       &:nth-child(1) {
-        line-height: @card-h;
+        line-height: @card-h - 2;
         border-radius: 7px 7px 0 0;
       }
       &:nth-child(2) {
-        line-height: 0;
+        line-height: 2px;
         transform-origin: top;            
         transform: perspective(50px) rotateX(179.99deg);
         backface-visibility: hidden; 
@@ -130,51 +117,10 @@
       }
     }
   }
-
 }
 
 
-/** 上下翻转(不带透视) */
-.clock-cube {
-  width: @card-w;
-  height: @card-h;
-  position: relative;
-  transform-style: preserve-3d;
-
-  p {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    line-height: @card-h;
-    text-align: center;
-    font-size: 40px;
-    background-color: @card-bg-color;    
-    border: solid 1px @card-border-color;
-    color: #fff;
-    margin-bottom: 0;
-    box-shadow: 0 1px 5px #333;
-    border-radius: 2px;
-
-    /** 前 */
-    &:nth-child(1) {
-      transform: translateZ(@card-h/2);
-    }
-    
-    /** 顶 */
-    &:nth-child(2) {
-      transform: translateY(-@card-h/2) rotateX(90deg);
-    }
-  }
-
-  &.run {
-    transform: rotateX(-90deg);    
-    transition: .7s;
-  }
-  
-}
-
-
-/** 上下翻转（带透视） */
+/** 上下翻转（带透视）*/
 .clock-cube-3d-v {
   width: @card-w;
   height: @card-h;
@@ -185,7 +131,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transform-origin: center center -@card-h/2;;    
+    transform-origin: center center calc(-@card-h/2);   
   }
 
   p {
@@ -233,7 +179,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transform-origin: center center -@card-w/2;    
+    transform-origin: center center calc(-@card-w/2);    
   }
 
   p {
