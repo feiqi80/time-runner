@@ -1,4 +1,5 @@
-import React, {useState, useRef, useEffect, memo} from "react";
+import React, {useState, useRef, useEffect, memo, CSSProperties} from "react";
+import { isValidTime, getTimeDiff, countTime } from "./Tools";
 import dayjs from "dayjs";
 import "./aStyle.less";
 
@@ -11,65 +12,35 @@ import "./aStyle.less";
  *
  */
 type TransMode = "card" | "cube-v"| "cube-h";
-
-const f = "HH:mm:ss";
-const delay = 900;
-const formats = [
-  "YYYY-MM-DD",
-  "YYYY/MM/DD",
-  "YYYY-MM-DD HH:mm",
-  "YYYY/MM/DD HH:mm",
-  "YYYY-MM-DD HH:mm:ss",
-  "YYYY/MM/DD HH:mm:ss",
-];
-
-  // return formats.some((fmt) => dayjs(value, fmt, true).isValid());
-
-const getTimeDiff = (endTime: string) => {
-
-
-
-
-  if (!formats.some((ele) => dayjs(endTime, ele, true).isValid())) {
-    console.error("不合法");
-    return "000:00:00:00";
-  }
-
-  const diffMs = dayjs(endTime).diff(dayjs());
-
-  if (diffMs <= 0) {
-    return "000:00:00:00";
-  }
-
-  const totalSeconds = Math.floor(diffMs / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  const t =`${`${days}`.padStart(3, "0")}:${`${hours}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}:${`${seconds}`.padStart(2, "0")}`;
-
-  return t;
-}
-
-
 interface PropsType {
   mode?: TransMode;
-  endTime?: string;
+  showType?: string;
   size?: number;
   className?: string;
+  bgColor?: string;
+  borderColor?: string;
 }
-
 interface RefType {
   t: number | null;
 }
 
+const f = "HH:mm:ss";
+const delay = 900;
+
+
 const TimeCountdown = (props: PropsType) => { 
-  const { mode, endTime, size = 40, className } = props; 
-  const [time, setTime] = useState(endTime ? getTimeDiff(endTime) : dayjs().format(f));
+  const { mode, showType = "default", size = 40, className, bgColor, borderColor } = props; 
+  const [time, setTime] = useState(
+    showType === "count" 
+      ? countTime(0) 
+      : (showType === "default"
+          ? dayjs().format(f) 
+          : getTimeDiff(showType)
+        )
+      );
   const aRef = useRef<RefType>({
     t: null
   })
-
 
   const cardStyle = {
     "--card-size": `${size}px`,
@@ -78,28 +49,45 @@ const TimeCountdown = (props: PropsType) => {
     // 下面两个必须是一个确定的数字，不能是表达式
     "--transx": `${-size * 1.25 / 2}px`,
     "--transy": `${-size}px`,
-    "--delay": `${delay/1000}s`
-  } as React.CSSProperties;
+    "--delay": `${delay/1000}s`,
+    "--bgColor": bgColor,
+    "--borderColor": borderColor,
+  } as CSSProperties;
 
   useEffect(() => {
+    let count = 0;
     if (aRef.current.t) {
       clearInterval(aRef.current.t);
       aRef.current.t = null;
+      count = 0;
     }
     aRef.current.t = setInterval(() => {
-      setTime(endTime ? getTimeDiff(endTime) : dayjs().format(f));
+      let fn = () => "";
+      if (showType === "count") {
+        fn = () => countTime(++count);
+      } else if (showType === "default") {
+        fn = () => dayjs().format(f);
+      } else {
+        fn = () => getTimeDiff(showType)
+      }
+      setTime(fn());
     }, 1000);
-  }, [endTime])
+  }, [showType])
 
   const cardDom = () => {
+    if (!time) {
+      return null;
+    }
+
     const arr = time.split(":");
     const hList = arr[arr.length - 3].split("");
     const mList = arr[arr.length - 2].split("");
     const sList = arr[arr.length - 1].split("");
     const dList = arr.length === 4 && arr[0] !== "000" ? arr[0].split("") : [];
+    const isValidDate = isValidTime(showType);
 
     const dListDom = dList.map((ele: string, i: number) => {
-      return <CardNumber key={i} mode={mode} time={+ele} limit={endTime ? -9 : 9} />
+      return <CardNumber key={i} mode={mode} time={+ele} limit={isValidDate ? -9 : 9} />
     })
 
     const seprator = <span>:</span>;
@@ -108,23 +96,24 @@ const TimeCountdown = (props: PropsType) => {
       <>
         {/* 天 */}
         {dListDom.length 
-        ? <>{dListDom}{endTime ? <p>天</p> : seprator}</> 
+        ? <>{dListDom}{isValidDate ? <p>天</p> : seprator}</> 
         : null
         }        
         {/* 小时：十位数 */}
-        <CardNumber mode={mode} time={+hList[0]} limit={endTime ? -2 : 2} />
+        <CardNumber mode={mode} time={+hList[0]} limit={isValidDate ? -2 : 2} />
         {/* 小时：个位数 */}
-        <CardNumber mode={mode} time={+hList[1]} limit={endTime ? -9 : 9} />
-        {endTime ? <p>小时</p> : seprator}
+        <CardNumber mode={mode} time={+hList[1]} limit={isValidDate ? -9 : 9} />
+        {isValidDate ? <p>小时</p> : seprator}
         {/* 分钟：十位数 */}
-        <CardNumber mode={mode} time={+mList[0]} limit={endTime ? -5 : 5} />
+        <CardNumber mode={mode} time={+mList[0]} limit={isValidDate ? -5 : 5} />
         {/* 分钟：个位数 */}
-        <CardNumber mode={mode} time={+mList[1]} limit={endTime ? -9 : 9} />
-        {endTime ? <p>分钟</p> : seprator}
+        <CardNumber mode={mode} time={+mList[1]} limit={isValidDate ? -9 : 9} />
+        {isValidDate ? <p>分</p> : seprator}
         {/* 秒：十位数 */}
-        <CardNumber mode={mode} time={+sList[0]} limit={endTime ? -5 : 5} />
+        <CardNumber mode={mode} time={+sList[0]} limit={isValidDate ? -5 : 5} />
         {/* 秒：个位数 */}
-        <CardNumber mode={mode} time={+sList[1]} limit={endTime ? -9 : 9} />
+        <CardNumber mode={mode} time={+sList[1]} limit={isValidDate ? -9 : 9} />
+        {isValidDate && <p>秒</p>}
       </>      
     );
   }
