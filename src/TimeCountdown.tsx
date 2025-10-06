@@ -13,8 +13,28 @@ import "./aStyle.less";
 type TransMode = "card" | "cube-v"| "cube-h";
 
 const f = "HH:mm:ss";
+const delay = 900;
+const formats = [
+  "YYYY-MM-DD",
+  "YYYY/MM/DD",
+  "YYYY-MM-DD HH:mm",
+  "YYYY/MM/DD HH:mm",
+  "YYYY-MM-DD HH:mm:ss",
+  "YYYY/MM/DD HH:mm:ss",
+];
+
+  // return formats.some((fmt) => dayjs(value, fmt, true).isValid());
 
 const getTimeDiff = (endTime: string) => {
+
+
+
+
+  if (!formats.some((ele) => dayjs(endTime, ele, true).isValid())) {
+    console.error("不合法");
+    return "000:00:00:00";
+  }
+
   const diffMs = dayjs(endTime).diff(dayjs());
 
   if (diffMs <= 0) {
@@ -33,8 +53,10 @@ const getTimeDiff = (endTime: string) => {
 
 
 interface PropsType {
-  mode: TransMode;
+  mode?: TransMode;
   endTime?: string;
+  size?: number;
+  className?: string;
 }
 
 interface RefType {
@@ -42,11 +64,22 @@ interface RefType {
 }
 
 const TimeCountdown = (props: PropsType) => { 
-  const { mode, endTime } = props; 
+  const { mode, endTime, size = 40, className } = props; 
   const [time, setTime] = useState(endTime ? getTimeDiff(endTime) : dayjs().format(f));
   const aRef = useRef<RefType>({
     t: null
   })
+
+
+  const cardStyle = {
+    "--card-size": `${size}px`,
+    "--card-w": `${size * 1.25}px`,
+    "--card-h": `${size * 2}px`,
+    // 下面两个必须是一个确定的数字，不能是表达式
+    "--transx": `${-size * 1.25 / 2}px`,
+    "--transy": `${-size}px`,
+    "--delay": `${delay/1000}s`
+  } as React.CSSProperties;
 
   useEffect(() => {
     if (aRef.current.t) {
@@ -54,7 +87,7 @@ const TimeCountdown = (props: PropsType) => {
       aRef.current.t = null;
     }
     aRef.current.t = setInterval(() => {
-      setTime(endTime ? getTimeDiff(endTime) :  dayjs().format(f));
+      setTime(endTime ? getTimeDiff(endTime) : dayjs().format(f));
     }, 1000);
   }, [endTime])
 
@@ -69,23 +102,25 @@ const TimeCountdown = (props: PropsType) => {
       return <CardNumber key={i} mode={mode} time={+ele} limit={endTime ? -9 : 9} />
     })
 
+    const seprator = <span>:</span>;
+
     return (
       <>
         {/* 天 */}
         {dListDom.length 
-        ? <>{dListDom}<em>:</em></> 
+        ? <>{dListDom}{endTime ? <p>天</p> : seprator}</> 
         : null
         }        
         {/* 小时：十位数 */}
         <CardNumber mode={mode} time={+hList[0]} limit={endTime ? -2 : 2} />
         {/* 小时：个位数 */}
         <CardNumber mode={mode} time={+hList[1]} limit={endTime ? -9 : 9} />
-        <em>:</em>
+        {endTime ? <p>小时</p> : seprator}
         {/* 分钟：十位数 */}
         <CardNumber mode={mode} time={+mList[0]} limit={endTime ? -5 : 5} />
         {/* 分钟：个位数 */}
         <CardNumber mode={mode} time={+mList[1]} limit={endTime ? -9 : 9} />
-        <em>:</em>
+        {endTime ? <p>分钟</p> : seprator}
         {/* 秒：十位数 */}
         <CardNumber mode={mode} time={+sList[0]} limit={endTime ? -5 : 5} />
         {/* 秒：个位数 */}
@@ -95,7 +130,7 @@ const TimeCountdown = (props: PropsType) => {
   }
 
   return (
-    <div className="time-countdown">
+    <div className={`time-countdown ${className || ""}`} style={cardStyle}>
       {cardDom()}
     </div>
   );
@@ -146,7 +181,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       setTimeout(() => {
         tRef.current!.t = time;
         setTrans(false);
-      }, 700);
+      }, delay);
     }
   }, [trans, time]);
 
@@ -165,7 +200,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
    * 
    * 立方体关键点：
    * 1. 旋转的是外层整体元素的x轴，而不是旋转内部的两个元素。需要设置：transform-style: preserve-3d; 否则翻转无效。
-   * 2. 需要把两张卡片拼成立方体（具体详见perspective.tsx中生成立方体元素写法）。
+   * 2. 需要把两张卡片拼成立方体。
    * 3. 由于旋转的是外层元素的x轴，所以就是以卡片的一半高度进行旋转，所以顶部卡片的初始位置也要往上移动一半的高度，然后旋转90度。
    * 
    * 带透视旋转关键点：
@@ -210,7 +245,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       case "cube-h": {
         return (
           <div className={`clock-cube-3d-h ${trans ? "run" : ""}`}>
-            <div>              
+            <div>
               <p>{nextT}</p>
               <p>{t}</p>
             </div>
@@ -218,7 +253,11 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
         );
       }
       default: {
-        return <p />
+        return (
+          <div>
+            <p>{t}</p>
+          </div>
+        )
       }
     }
   }

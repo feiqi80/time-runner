@@ -1,7 +1,12 @@
-@card-w: 50px;
-@card-h: 80px;
+@card-w: var(--card-w, 50px);
+@card-h: var(--card-h, 80px);
+@card-size: var(--card-size, 40px);
+@half-card-w: var(--transx);
+@half-card-h: var(--transy);
 @card-bg-color: #333;
 @card-border-color: #999;
+@card-radius: 6px;
+@delay: var(--delay);
 
 
 .time-countdown {
@@ -12,10 +17,22 @@
   margin: 0 auto;
   user-select: none;
   position: relative;
-  em {
-    font-size: 50px;
-    font-style: normal;
-    padding-bottom: 10px;
+  font-variant-numeric: tabular-nums;
+  span {
+    font-size: @card-size;
+    margin: 0 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+  }
+  > p {
+    margin: 0 3px;
+  }
+
+  > div {
+    font-size: @card-size;
+    > p {
+      color: #333;
+    }
   }
 }
 
@@ -25,7 +42,7 @@
   height: @card-h;
   width: @card-w;
   box-shadow: 0 1px 5px #333;
-  border-radius: 6px;
+  border-radius: @card-radius;
 
   &:before {
     content: "";
@@ -53,7 +70,7 @@
       width: 100%;
       margin-bottom: 0;
       text-align: center;
-      font-size: 40px;
+      font-size: @card-size;
       background-color: @card-bg-color;
       color: #fff;
       overflow: hidden;
@@ -73,20 +90,20 @@
   .clock-f {
     p {
       &:nth-child(1) {
-        line-height: @card-h - 2; // 由于分割线的的缘故，为了看起来要像两个半张卡片拼接的效果，而不是被分割线遮住的效果（数字8和3能看出效果和区别），所以这里向下偏移一点。
+        line-height: calc(@card-h - 2px); // 由于分割线的的缘故，为了看起来要像两个半张卡片拼接的效果，而不是被分割线遮住的效果（数字8和3能看出效果和区别），所以这里向下偏移一点。
         transform-origin: bottom;
         backface-visibility: hidden;
-        border-radius: 7px 7px 0 0;
+        border-radius: @card-radius+1 @card-radius+1 0 0;
       }
       &:nth-child(2) {
         line-height: 2px; // 原理同上面的@card-h - 2
-        border-radius: 0 0 6px 6px;
+        border-radius: 0 0 @card-radius @card-radius;
       }
     }
     &.run {
       p {        
         &:nth-child(1) {
-          transition: .7s ease-in-out;
+          transition: @delay ease-in-out;
           transform: perspective(50px) rotateX(-180deg);
         }
       }
@@ -96,21 +113,21 @@
   .clock-b {
     p {
       &:nth-child(1) {
-        line-height: @card-h - 2;
-        border-radius: 7px 7px 0 0;
+        line-height: calc(@card-h - 2px);
+        border-radius: @card-radius+1 @card-radius+1 0 0;
       }
       &:nth-child(2) {
         line-height: 2px;
         transform-origin: top;            
         transform: perspective(50px) rotateX(179.99deg);
         backface-visibility: hidden; 
-        border-radius: 0 0 6px 6px;
+        border-radius: 0 0 @card-radius @card-radius;
       }
     }    
     &.run {
       p {        
         &:nth-child(2) {
-          transition: .7s ease-in-out;
+          transition: @delay ease-in-out;
           transform: rotateX(0);
           z-index: 2; // 兼容edge浏览器，需要设置成2，其余浏览器设置1即可。
         }
@@ -131,7 +148,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transform-origin: center center calc(-@card-h/2);   
+    transform-origin: center center @half-card-h;   
   }
 
   p {
@@ -139,7 +156,7 @@
     height: 100%;
     line-height: @card-h;
     text-align: center;
-    font-size: 40px;
+    font-size: @card-size;
     background-color: @card-bg-color;    
     border: solid 1px @card-border-color;
     color: #fff;
@@ -161,7 +178,7 @@
   &.run {
     div {      
       transform: rotateX(-90deg); // 如果是单轴旋转，等同于：rotate3d(1, 0, 0, -90deg);
-      transition: .7s;      
+      transition: @delay;      
     }    
   }
   
@@ -179,7 +196,7 @@
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transform-origin: center center calc(-@card-w/2);    
+    transform-origin: center center @half-card-w;    
   }
 
   p {
@@ -187,7 +204,7 @@
     height: 100%;
     line-height: @card-h;
     text-align: center;
-    font-size: 40px;
+    font-size: @card-size;
     background-color: @card-bg-color;    
     border: solid 1px @card-border-color;
     color: #fff;
@@ -205,9 +222,7 @@
   &.run {
     div {      
       transform: rotateY(90deg); // 如果是单轴旋转，等同于：rotate3d(0, -1, 0, -90deg);
-      transition: .7s;      
+      transition: @delay;      
     }    
   }
-  
 }
-
