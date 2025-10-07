@@ -35,6 +35,8 @@ interface PropsType {
   bgColor?: string;
   /** 边框颜色 */
   borderColor?: string;
+  /** 倒计时结束后执行的方法 */
+  finishCountFn?: Function;
 }
 interface RefType {
   t: number | null;
@@ -45,7 +47,7 @@ const delay = 900;
 
 
 const TimeCountdown = (props: PropsType) => { 
-  const { mode, showType = "default", size = 40, className, bgColor, borderColor } = props; 
+  const { mode, showType = "default", size = 40, className, bgColor, borderColor, finishCountFn } = props; 
   const [time, setTime] = useState(
     showType === "count" 
       ? countTime(0) 
@@ -89,6 +91,12 @@ const TimeCountdown = (props: PropsType) => {
       setTime(fn());
     }, 1000);
   }, [showType])
+
+  useEffect(() => {    
+    isValidTime(showType) && time === "00:00:00" && finishCountFn && setTimeout(() => {
+      finishCountFn();
+    }, 1000);
+  }, [time, showType, finishCountFn])
 
   const cardDom = () => {
     if (!time) {

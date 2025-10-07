@@ -75,6 +75,8 @@ showType?: string;
  * cube-h：左右翻转
  */
 mode?: TransMode;
+/** 倒计时结束后执行的方法 */
+finishCountFn?: Function;
 /** 尺寸，默认40 */
 size?: number;
 /** 自定义样式类名 */
