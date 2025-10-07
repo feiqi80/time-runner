@@ -55,16 +55,16 @@ const TimeCountdown = (props: PropsType) => {
   } as CSSProperties;
 
   useEffect(() => {
-    let count = 0;
+    let startTime = Date.now();
     if (aRef.current.t) {
       clearInterval(aRef.current.t);
       aRef.current.t = null;
-      count = 0;
+      startTime = Date.now();
     }
     aRef.current.t = setInterval(() => {
       let fn = () => "";
       if (showType === "count") {
-        fn = () => countTime(++count);
+        fn = () => countTime(Math.floor((Date.now() - startTime) / 1000));
       } else if (showType === "default") {
         fn = () => dayjs().format(f);
       } else {

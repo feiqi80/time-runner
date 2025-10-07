@@ -1,8 +1,8 @@
 {
   "name": "time-countdown",
   "version": "0.0.1",
-  "description": "",
-  "keywords": [],
+  "description": "Displaying timer, current time, and countdown with light animation effects(React component)",
+  "keywords": ["react", "countdown", "timer", "hook", "card", "less", "animation", "vite"],
   "main": "./src/index.ts",
   "module": "./src/index.ts",
   "types": "./src/index.ts",
