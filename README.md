@@ -20,13 +20,13 @@ yarn add time-runner
 ```
 
 ## 页面引入
-```bash
+```jsx
 import { TimeRunner } from "time-runner";
 import "time-runner/dist/time-runner.css";
 ```
 
 ## 使用说明
-```react
+```jsx
 
 // 当前时间
 <TimeRunner />
@@ -60,7 +60,7 @@ import "time-runner/dist/time-runner.css";
 ```
 
 ### 组件属性（props）
-```js
+```jsx
 /** 
  * 显示模式，默认：default
  * default: 当前时间  

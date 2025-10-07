@@ -1,3 +1,8 @@
+/*!
+ * @feiqi/time-runner v1.0.1
+ * (c) 2025 Fei Qi/费祺
+ * Released under the MIT License.
+ */
 import React, {useState, useRef, useEffect, memo, CSSProperties} from "react";
 import { isValidTime, getTimeDiff, countTime } from "./Tools";
 import dayjs from "dayjs";

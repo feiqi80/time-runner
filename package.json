@@ -1,6 +1,6 @@
 {
   "name": "time-runner",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Displaying timer, current time, and countdown with light animation effects(React component)",
   "keywords": ["react", "countdown", "timer", "hook", "card", "less", "animation", "vite"],
   "main": "./dist/time-runner.umd.js",
@@ -9,6 +9,10 @@
   "type": "module",
   "author": "feiqi",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/feiqi80/time-runner"
+  },
   "scripts": {
     "build": "vite build",
     "dev": "vite --port 3001"
