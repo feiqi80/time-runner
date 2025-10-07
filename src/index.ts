@@ -1,3 +1,3 @@
-import TimeCountdown from "./TimeCountdown";
+import TimeRunner from "./TimeRunner";
 
-export { TimeCountdown }
+export { TimeRunner }

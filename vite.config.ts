@@ -16,8 +16,8 @@ export default defineConfig(() => {
     build: {
       lib: {
         entry: './src/index.ts',
-        name: 'time-countdown',
-        fileName: (format) => `time-countdown.${format}.js`
+        name: 'time-runner',
+        fileName: (format) => `time-runner.${format}.js`
       },
       rollupOptions: {
         external: ["react", "react-dom", "react/jsx-runtime"],

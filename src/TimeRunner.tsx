@@ -143,7 +143,7 @@ const TimeCountdown = (props: PropsType) => {
   }
 
   return (
-    <div className={`time-countdown ${className || ""}`} style={cardStyle}>
+    <div className={`time-runner ${className || ""}`} style={cardStyle}>
       {cardDom()}
     </div>
   );

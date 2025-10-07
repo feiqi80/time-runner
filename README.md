@@ -12,49 +12,49 @@
 
 ## 安装
 ```bash
-npm i time-countdown
+npm i time-runner
 ```
 或者
 ```bash
-yarn add time-countdown
+yarn add time-runner
 ```
 
 ## 页面引入
 ```bash
-import { TimeCountdown } from "time-countdown";
-import "time-countdown/dist/time-countdown.css";
+import { TimeRunner } from "time-runner";
+import "time-runner/dist/time-runner.css";
 ```
 
 ## 使用说明
 ```react
 
 // 当前时间
-<TimeCountdown />
+<TimeRunner />
 // 计时器
-<TimeCountdown showType="count" />
+<TimeRunner showType="count" />
 // 倒计时
-<TimeCountdown showType="2025-10-31" />
+<TimeRunner showType="2025-10-31" />
 
 // 当前时间 + 翻牌效果
-<TimeCountdown mode="card" />
+<TimeRunner mode="card" />
 // 计时器 + 翻牌效果
-<TimeCountdown mode="card" showType="count" />
+<TimeRunner mode="card" showType="count" />
 // 倒计时 + 翻牌效果
-<TimeCountdown mode="card" showType="2025-10-31" />
+<TimeRunner mode="card" showType="2025-10-31" />
 
 // 当前时间 + 翻转（左右）
-<TimeCountdown mode="cube-h" />
+<TimeRunner mode="cube-h" />
 // 计时器 + 翻转（左右）
-<TimeCountdown mode="cube-h" showType="count" />
+<TimeRunner mode="cube-h" showType="count" />
 // 倒计时 + 翻转（左右）
-<TimeCountdown mode="cube-h" showType="2025-10-31" />
+<TimeRunner mode="cube-h" showType="2025-10-31" />
 
 // 当前时间 + 翻转（上下）
-<TimeCountdown mode="cube-v" />
+<TimeRunner mode="cube-v" />
 // 计时器 + 翻转（上下）
-<TimeCountdown mode="cube-v" showType="count" />
+<TimeRunner mode="cube-v" showType="count" />
 // 倒计时 + 翻转（上下）
-<TimeCountdown mode="cube-v" showType="2025-10-31" />
+<TimeRunner mode="cube-v" showType="2025-10-31" />
 
 
 ```
