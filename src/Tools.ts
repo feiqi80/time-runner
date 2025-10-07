@@ -13,12 +13,12 @@ const formats = [
 
 export const getTimeDiff = (endTime: string) => {
   if (!isValidTime(endTime)) {
-    return "000:00:00:00";
+    return "00:00:00";
   }
 
   const diffMs = dayjs(endTime).diff(dayjs());
   if (diffMs <= 0) {
-    return "000:00:00:00";
+    return "00:00:00";
   }
 
   const totalSeconds = Math.floor(diffMs / 1000);
@@ -26,7 +26,7 @@ export const getTimeDiff = (endTime: string) => {
   const hours = Math.floor((totalSeconds % 86400) / 3600);
   const minutes = Math.floor((totalSeconds % 3600) / 60);
   const seconds = totalSeconds % 60;
-  const t =`${`${days}`.padStart(3, "0")}:${`${hours}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}:${`${seconds}`.padStart(2, "0")}`;
+  const t =`${days ? `${days}:` : ""}${`${hours}`.padStart(2, "0")}:${`${minutes}`.padStart(2, "0")}:${`${seconds}`.padStart(2, "0")}`;
 
   return t;
 }

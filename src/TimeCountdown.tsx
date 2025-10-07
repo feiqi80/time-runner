@@ -83,7 +83,7 @@ const TimeCountdown = (props: PropsType) => {
     const hList = arr[arr.length - 3].split("");
     const mList = arr[arr.length - 2].split("");
     const sList = arr[arr.length - 1].split("");
-    const dList = arr.length === 4 && arr[0] !== "000" ? arr[0].split("") : [];
+    const dList = arr.length === 4 ? arr[0].split("") : [];
     const isValidDate = isValidTime(showType);
 
     const dListDom = dList.map((ele: string, i: number) => {
