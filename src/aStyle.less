@@ -9,6 +9,10 @@
 @delay: var(--delay);
 @bgColor: var(--bgColor, @card-bg-color);
 @borderColor: var(--borderColor, @card-border-color);
+@drift-x: var(--driftX);
+@drift-y: var(--driftY);
+@drift-rz: var(--driftRZ);
+@drift-rx: var(--driftRX);
 
 
 .time-runner {
@@ -140,7 +144,7 @@
 
 
 /** 上下翻转（带透视）*/
-.clock-cube-3d-v {
+.cube-v {
   width: @card-w;
   height: @card-h;
   position: relative;
@@ -188,7 +192,7 @@
 
 
 /** 左右翻转（带透视） */
-.clock-cube-3d-h {
+.cube-h {
   width: @card-w;
   height: @card-h;
   position: relative;
@@ -225,6 +229,43 @@
     div {      
       transform: rotateY(90deg); // 如果是单轴旋转，等同于：rotate3d(0, -1, 0, -90deg);
       transition: @delay;      
+    }    
+  }
+}
+
+.drift {
+  height: @card-h;
+  width: @card-w;
+  font-size: @card-size;
+  background-color: @bgColor;
+  line-height: @card-h;
+  text-align: center;
+  border: solid 1px @borderColor;
+  color: #fff;
+  box-shadow: 0 1px 2px #333;
+  border-radius: 2px;
+  position: relative;
+
+  &:before {
+    content: attr(data-digit);
+    position: absolute;
+    top: 0;    
+    left: 0;
+    line-height: @card-h; 
+    width: 100%;
+    text-align: center;
+    overflow: hidden;
+    height: 100%;
+    background-color: @bgColor;
+    transform-origin: center;
+  }
+
+  &.run {
+    &:before {
+      transform: translate(@drift-x, @drift-y) rotateZ(@drift-rz) rotateX(@drift-rx);
+      opacity: 0;
+      transition: @delay;
+      border: solid 2px @borderColor;
     }    
   }
 }

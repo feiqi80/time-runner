@@ -73,6 +73,7 @@ showType?: string;
  * card：卡片  
  * cube-v：上下翻转  
  * cube-h：左右翻转
+ * drift：漂浮
  */
 mode?: TransMode;
 /** 倒计时结束后执行的方法 */
@@ -97,8 +98,19 @@ borderColor?: string;
 "YYYY/MM/DD HH:mm:ss",
 ```
 
+### React版本
+```
+"react": ">=16.8.0",
+"react-dom": ">=16.8.0"
+```
+
 
 # 更新日志
+
+## [1.0.2] - 2025-10-11
+### 更新内容
+- 增加 mode = "drift" 效果
+- 更新Readme内容
 
 ## [1.0.1] - 2025-10-07
 ### 更新内容

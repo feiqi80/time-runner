@@ -3,7 +3,7 @@
  * (c) 2025 Fei Qi/费祺
  * Released under the MIT License.
  */
-import React, {useState, useRef, useEffect, memo, CSSProperties} from "react";
+import React, {useState, useRef, useEffect, memo, CSSProperties, useMemo} from "react";
 import { isValidTime, getTimeDiff, countTime } from "./Tools";
 import dayjs from "dayjs";
 import "./aStyle.less";
@@ -16,7 +16,7 @@ import "./aStyle.less";
  * cube-h: 立方体左右翻转
  *
  */
-type TransMode = "card" | "cube-v"| "cube-h";
+type TransMode = "card" | "cube-v"| "cube-h" | "drift";
 interface PropsType {
   /** 
    * 显示模式，默认：default
@@ -116,7 +116,7 @@ const TimeCountdown = (props: PropsType) => {
     const isValidDate = isValidTime(showType);
 
     const dListDom = dList.map((ele: string, i: number) => {
-      return <CardNumber key={i} mode={mode} time={+ele} limit={isValidDate ? -9 : 9} />
+      return <CardNumber key={i} mode={mode} time={+ele} limit={isValidDate ? -9 : 9} size={size} />
     })
 
     const seprator = <span>:</span>;
@@ -129,19 +129,19 @@ const TimeCountdown = (props: PropsType) => {
         : null
         }        
         {/* 小时：十位数 */}
-        <CardNumber mode={mode} time={+hList[0]} limit={isValidDate ? -2 : 2} />
+        <CardNumber mode={mode} time={+hList[0]} limit={isValidDate ? -2 : 2} size={size} />
         {/* 小时：个位数 */}
-        <CardNumber mode={mode} time={+hList[1]} limit={isValidDate ? -9 : 9} />
+        <CardNumber mode={mode} time={+hList[1]} limit={isValidDate ? -9 : 9} size={size} />
         {isValidDate ? <p>小时</p> : seprator}
         {/* 分钟：十位数 */}
-        <CardNumber mode={mode} time={+mList[0]} limit={isValidDate ? -5 : 5} />
+        <CardNumber mode={mode} time={+mList[0]} limit={isValidDate ? -5 : 5} size={size} />
         {/* 分钟：个位数 */}
-        <CardNumber mode={mode} time={+mList[1]} limit={isValidDate ? -9 : 9} />
+        <CardNumber mode={mode} time={+mList[1]} limit={isValidDate ? -9 : 9} size={size} />
         {isValidDate ? <p>分</p> : seprator}
         {/* 秒：十位数 */}
-        <CardNumber mode={mode} time={+sList[0]} limit={isValidDate ? -5 : 5} />
+        <CardNumber mode={mode} time={+sList[0]} limit={isValidDate ? -5 : 5} size={size} />
         {/* 秒：个位数 */}
-        <CardNumber mode={mode} time={+sList[1]} limit={isValidDate ? -9 : 9} />
+        <CardNumber mode={mode} time={+sList[1]} limit={isValidDate ? -9 : 9} size={size} />
         {isValidDate && <p>秒</p>}
       </>      
     );
@@ -166,6 +166,8 @@ interface PropsOwn {
   limit: number;
   /** 翻转模式 */
   mode: TransMode;
+  /** 主要是给mode = drift 使用，为了每个数字效果不一样 */
+  size: number;
 }
 
 interface RefType {
@@ -175,11 +177,23 @@ interface RefType {
 
 
 const CardItem = (props: PropsOwn): React.ReactNode => {
-  const { time, limit, mode } = props;
+  const { time, limit, mode, size } = props;
   const [trans, setTrans] = useState(false);
   const tRef = useRef<RefType>({
     t: time
   });
+
+  const driftStyle = useMemo(() => {
+    if (time !== tRef.current!.t) {
+      return {
+        "--driftX": `${Math.floor(Math.random() * (-size - size + 1)) + size}px`,
+        "--driftY": `${Math.floor(Math.random() * (-size*2 - size*2 + 1)) + size*2}px`,
+        "--driftRZ": `${Math.floor(Math.random() * (200 - 50 + 1)) + 50}deg`,
+        "--driftRX": `${Math.floor(Math.random() * (200 - 50 + 1)) + 50}deg`,
+      } as CSSProperties
+    }
+    return null;    
+  }, [time, size])
 
   /**
    * 跳过首次渲染
@@ -236,7 +250,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       case "cube-v": {
         return (
-          <div className={`clock-cube-3d-v ${trans ? "run" : ""}`}>
+          <div className={`cube-v ${trans ? "run" : ""}`}>
             <div>              
               <p>{nextT}</p>
               <p>{t}</p>
@@ -246,13 +260,20 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       case "cube-h": {
         return (
-          <div className={`clock-cube-3d-h ${trans ? "run" : ""}`}>
+          <div className={`cube-h ${trans ? "run" : ""}`}>
             <div>
               <p>{nextT}</p>
               <p>{t}</p>
             </div>
           </div>
         );
+      }
+      case "drift": {
+        return (
+          <div className={`drift ${trans ? "run" : ""}`} data-digit={t} style={driftStyle}>
+            {nextT}
+          </div>
+        )
       }
       default: {
         return (
