@@ -9,6 +9,7 @@
 @delay: var(--delay);
 @bgColor: var(--bgColor, @card-bg-color);
 @borderColor: var(--borderColor, @card-border-color);
+@textShadow: var(--textShadow);
 @drift-x: var(--driftX);
 @drift-y: var(--driftY);
 @drift-rz: var(--driftRZ);
@@ -38,6 +39,7 @@
     font-size: @card-size;
     > p {
       color: #333;
+      text-shadow: @textShadow;
     }
   }
 }
@@ -79,6 +81,7 @@
       font-size: @card-size;
       background-color: @bgColor;
       color: #fff;
+      text-shadow: @textShadow;
       overflow: hidden;
       border-left: solid 1px @borderColor;
       border-right: solid 1px @borderColor;
@@ -166,6 +169,7 @@
     background-color: @bgColor;    
     border: solid 1px @borderColor;
     color: #fff;
+    text-shadow: @textShadow;
     margin-bottom: 0;
     box-shadow: 0 1px 2px #333;
     border-radius: 2px;
@@ -214,6 +218,7 @@
     background-color: @bgColor;    
     border: solid 1px @borderColor;
     color: #fff;
+    text-shadow: @textShadow;
     margin-bottom: 0;
     box-shadow: 0 1px 2px #333;
     border-radius: 2px;
@@ -242,6 +247,7 @@
   text-align: center;
   border: solid 1px @borderColor;
   color: #fff;
+  text-shadow: @textShadow;
   box-shadow: 0 1px 2px #333;
   border-radius: 2px;
   position: relative;

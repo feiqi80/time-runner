@@ -40,6 +40,8 @@ interface PropsType {
   bgColor?: string;
   /** 边框颜色 */
   borderColor?: string;
+  /** 文字阴影颜色值 */
+  textShadowColor?: string;
   /** 倒计时结束后执行的方法 */
   finishCountFn?: Function;
 }
@@ -52,7 +54,7 @@ const delay = 900;
 
 
 const TimeCountdown = (props: PropsType) => { 
-  const { mode, showType = "default", size = 40, className, bgColor, borderColor, finishCountFn } = props; 
+  const { mode, showType = "default", size = 40, className, bgColor, borderColor, textShadowColor, finishCountFn } = props; 
   const [time, setTime] = useState(
     showType === "count" 
       ? countTime(0) 
@@ -75,6 +77,7 @@ const TimeCountdown = (props: PropsType) => {
     "--delay": `${delay/1000}s`,
     "--bgColor": bgColor,
     "--borderColor": borderColor,
+    "--textShadow": textShadowColor ? `1px 2px 3px ${textShadowColor}` : "none",
   } as CSSProperties;
 
   useEffect(() => {

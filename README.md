@@ -86,6 +86,8 @@ className?: string;
 bgColor?: string;
 /** 边框颜色 */
 borderColor?: string;
+/** 文字阴影颜色值 */
+textShadowColor?: string;
 ```
 
 ### 倒计时传入日期的格式
@@ -107,10 +109,17 @@ borderColor?: string;
 
 # 更新日志
 
+## [1.0.3] - 2025-10-11
+### 更新内容
+- 增加 textShadowColor（文字阴影颜色）属性
+- 更新Readme内容
+
+
 ## [1.0.2] - 2025-10-11
 ### 更新内容
 - 增加 mode = "drift" 效果
 - 更新Readme内容
+
 
 ## [1.0.1] - 2025-10-07
 ### 更新内容
