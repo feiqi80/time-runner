@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from "@vitejs/plugin-react";
 import dts from "vite-plugin-dts";
 import eslintPlugin from "vite-plugin-eslint";
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
 
 
 export default defineConfig(() => {  
@@ -12,6 +13,7 @@ export default defineConfig(() => {
         insertTypesEntry: true
       }),
       eslintPlugin(),
+      libInjectCss()
     ],
     build: {
       lib: {

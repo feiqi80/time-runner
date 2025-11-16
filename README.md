@@ -2,6 +2,8 @@
 
 ![时间/计时/倒计时组件](https://showscene.oss-cn-shanghai.aliyuncs.com/time-countdown.gif)
 
+地址：[功能演示-demo](http://showscene.cn/react-demo/clock)
+
 这是一个展示时间、计时、倒计时的组件。
 基于 React 开发。 主要功能包括：
 - 展示当前时间
@@ -109,10 +111,10 @@ textShadowColor?: string;
 
 # 更新日志
 
-## [1.0.3] - 2025-10-11
+## [1.0.3] - 2025-11-16
 ### 更新内容
 - 增加 textShadowColor（文字阴影颜色）属性
-- 更新Readme内容
+- 更新Readme内容，增加功能演示地址。
 
 
 ## [1.0.2] - 2025-10-11

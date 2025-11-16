@@ -1,6 +1,6 @@
 {
   "name": "time-runner",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Displaying timer, current time, and countdown with light animation effects(React component)",
   "keywords": ["react", "countdown", "timer", "hook", "card", "less", "animation", "vite"],
   "main": "./dist/time-runner.umd.js",
@@ -38,7 +38,8 @@
     "typescript": "^5.9.3",
     "vite": "^7.1.8",
     "vite-plugin-dts": "^4.5.4",
-    "vite-plugin-eslint": "^1.8.1"
+    "vite-plugin-eslint": "^1.8.1",
+    "vite-plugin-lib-inject-css": "^2.2.2"
   },
   "dependencies": {
     "dayjs": "^1.11.18"
