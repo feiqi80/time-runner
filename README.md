@@ -112,12 +112,17 @@ textShadowColor?: string;
 
 # 更新日志
 
+## [1.0.5] - 2025-11-16
+### 更新内容
+- 更新Readme内容
+
 ## [1.0.4] - 2025-11-16
 ### 更新内容
 - 更新Readme内容
 
 ## [1.0.3] - 2025-11-16
-### 更新内容
+### 更新内容【Breaking Change】
+- 移除 “time-runner/dist/time-runner.css”文件引入
 - 增加 textShadowColor（文字阴影颜色）属性
 - 更新Readme内容，增加功能演示地址。
 
