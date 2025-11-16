@@ -24,7 +24,8 @@ yarn add time-runner
 ## 页面引入
 ```jsx
 import { TimeRunner } from "time-runner";
-import "time-runner/dist/time-runner.css";
+// 1.0.3 版本开始，不需要引入css文件了
+// import "time-runner/dist/time-runner.css";
 ```
 
 ## 使用说明
@@ -110,6 +111,10 @@ textShadowColor?: string;
 
 
 # 更新日志
+
+## [1.0.4] - 2025-11-16
+### 更新内容
+- 更新Readme内容
 
 ## [1.0.3] - 2025-11-16
 ### 更新内容

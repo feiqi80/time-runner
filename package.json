@@ -1,6 +1,6 @@
 {
   "name": "time-runner",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Displaying timer, current time, and countdown with light animation effects(React component)",
   "keywords": ["react", "countdown", "timer", "hook", "card", "less", "animation", "vite"],
   "main": "./dist/time-runner.umd.js",
