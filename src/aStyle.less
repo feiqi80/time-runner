@@ -1,3 +1,14 @@
+@font-face {
+  font-family: "DIN Alternate";
+  src: url("/fonts/DINAlternateBold.ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+.font-num {
+  font-family: "DIN Alternate";
+}
+
+
 @card-w: var(--card-w, 50px);
 @card-h: var(--card-h, 80px);
 @card-size: var(--card-size, 40px);
@@ -99,13 +110,13 @@
   .clock-f {
     p {
       &:nth-child(1) {
-        line-height: calc(@card-h - 2px); // 由于分割线的的缘故，为了看起来要像两个半张卡片拼接的效果，而不是被分割线遮住的效果（数字8和3能看出效果和区别），所以这里向下偏移一点。
+        line-height: @card-h;
         transform-origin: bottom;
         backface-visibility: hidden;
-        border-radius: @card-radius+1 @card-radius+1 0 0;
+        border-radius: @card-radius @card-radius 0 0;
       }
       &:nth-child(2) {
-        line-height: 2px; // 原理同上面的@card-h - 2
+        line-height: 3px; // 分割线的的缘故，为了看起来要像两个半张卡片拼接的效果，而不是被分割线遮住的效果（数字8和3能看出效果和区别），所以这里向下偏移一点。
         border-radius: 0 0 @card-radius @card-radius;
       }
     }
@@ -122,11 +133,11 @@
   .clock-b {
     p {
       &:nth-child(1) {
-        line-height: calc(@card-h - 2px);
-        border-radius: @card-radius+1 @card-radius+1 0 0;
+        line-height: @card-h;
+        border-radius: @card-radius @card-radius 0 0;
       }
       &:nth-child(2) {
-        line-height: 2px;
+        line-height: 3px;
         transform-origin: top;            
         transform: perspective(50px) rotateX(179.99deg);
         backface-visibility: hidden; 

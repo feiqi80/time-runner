@@ -14,6 +14,7 @@ import "./aStyle.less";
  * card:   翻牌翻转
  * cube-v: 立方体上下翻转
  * cube-h: 立方体左右翻转
+ * drift:  漂浮
  *
  */
 type TransMode = "card" | "cube-v"| "cube-h" | "drift";
@@ -21,15 +22,16 @@ interface PropsType {
   /** 
    * 显示模式，默认：default
    * default: 当前时间  
-   * count: 计时器  
-   * 指定时间：倒计时。
+   * count:   计时器  
+   * 指定时间： 倒计时。
    */
   showType?: string;
   /** 
    * 动画模式，
-   * card：卡片  
+   * card：  卡片  
    * cube-v：上下翻转  
    * cube-h：左右翻转
+   * drift： 漂浮
    */
   mode?: TransMode;
   /** 尺寸，默认40 */
@@ -208,7 +210,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
   }, [time]);
 
   /**
-   * 执行翻牌动作，在翻牌结束后，更新数字，这个新的数字跟随trans变量一起更新。
+   * 执行动画，在动画结束后，更新数字，这个新的数字跟随trans变量一起更新。
    * 延时时间尽量和样式中的时间接近，最好是相同，但不要超过1秒。 
    */
   useEffect(() => {
@@ -224,7 +226,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
   /**
    * 生成卡片
    * 
-   * 翻牌模式下，当翻转从180变为0时，山寨谷歌浏览器（搜狗、360、qq、猎豹等），会顺时针返回，而不是原路返回，所以设置成179.9，从而能让这些浏览器按原路返回。
+   * 翻牌模式下，当翻转从180变为0时，山寨谷歌浏览器（搜狗、360、qq、猎豹等），会顺时针返回，而不是原路返回，所以在样式中设置成179.9，从而能让这些浏览器按原路返回。
    * 
    */
   const makeDom = () => {
@@ -239,7 +241,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
     switch (mode) {
       case "card": {
         return (
-          <div className="clock-card">      
+          <div className="clock-card font-num">      
             <div className={`clock-b ${trans ? "run" : ""}`}>
               <p>{nextT}</p>
               <p>{nextT}</p>
@@ -253,7 +255,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       case "cube-v": {
         return (
-          <div className={`cube-v ${trans ? "run" : ""}`}>
+          <div className={`cube-v font-num ${trans ? "run" : ""}`}>
             <div>              
               <p>{nextT}</p>
               <p>{t}</p>
@@ -263,7 +265,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       case "cube-h": {
         return (
-          <div className={`cube-h ${trans ? "run" : ""}`}>
+          <div className={`cube-h font-num ${trans ? "run" : ""}`}>
             <div>
               <p>{nextT}</p>
               <p>{t}</p>
@@ -273,7 +275,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       case "drift": {
         return (
-          <div className={`drift ${trans ? "run" : ""}`} data-digit={t} style={driftStyle}>
+          <div className={`drift font-num ${trans ? "run" : ""}`} data-digit={t} style={driftStyle}>
             {nextT}
           </div>
         )
