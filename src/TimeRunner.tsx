@@ -1,5 +1,5 @@
 /*!
- * @feiqi/time-runner v1.0.1
+ * @feiqi/time-runner v1.1.2
  * (c) 2025 Fei Qi/费祺
  * Released under the MIT License.
  */
@@ -282,7 +282,7 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       }
       default: {
         return (
-          <div>
+          <div className="font-num">
             <p>{t}</p>
           </div>
         )
