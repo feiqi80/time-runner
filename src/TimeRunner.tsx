@@ -1,5 +1,5 @@
 /*!
- * @feiqi/time-runner v1.1.2
+ * @feiqi/time-runner v1.1.3
  * (c) 2025 Fei Qi/费祺
  * Released under the MIT License.
  */

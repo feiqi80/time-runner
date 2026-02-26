@@ -1,12 +1,10 @@
-/** 防止字体被打包到项目中，需要手动建public/font目录存放字体文件 */
+/** 如果字体放在public目录下，那么最终url的路径会变成业务项目的路径，所以还是要把字体放在src目录下，打包到组件中 */
 @font-face {
-  font-family: "DIN Alternate";
-  src: url("fonts/D-DIN-PRO-600-SemiBold.otf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
+  font-family: "DIN-num-font";
+  src: url("./assets/fonts/DIN-num-font.woff2");
 }
 .font-num {
-  font-family: "DIN Alternate";
+  font-family: "DIN-num-font";
 }
 
 
