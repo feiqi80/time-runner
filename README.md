@@ -1,99 +1,111 @@
-# 时间/计时/倒计时组件
+English | [中文](./README.zh-CN.md)
 
-![时间/计时/倒计时组件](https://showscene.oss-cn-shanghai.aliyuncs.com/time-countdown.gif)
+# Time / Timer / Countdown Component
 
-地址：[功能演示-demo](http://showscene.cn/react-demo/clock)
+![Time/Timer/Countdown Component](https://showscene.oss-cn-shanghai.aliyuncs.com/time-countdown.gif)
 
-这是一个展示时间、计时、倒计时的组件。
-基于 React 开发。 主要功能包括：
-- 展示当前时间
-- 展示显示计时（电脑锁屏、笔记本盒盖不中断计时）
-- 展示倒计时
-- 些许动画效果
+Demo：[Live Demo](http://showscene.cn/react-demo/clock)
+
+This is a component used to display current time, timer, and countdown.
+
+It is built with React and provides the following features：
+- Display the current time
+- Display a timer (continues counting even if the computer is locked or the laptop lid is closed)
+- Display a countdown timer
+- Includes several animation effects
 
 
-## 安装
+## Installation
 ```bash
 npm i time-runner
 ```
-或者
+or
 ```bash
 yarn add time-runner
 ```
 
-## 页面引入
+## Import
 ```jsx
 import { TimeRunner } from "time-runner";
-// 1.0.3 版本开始，不需要引入css文件了
+// Starting from version 1.0.3, CSS import is no longer required
 // import "time-runner/dist/time-runner.css";
 ```
 
-## 使用说明
+## Usage
 ```jsx
 
-// 当前时间
+// Current time
 <TimeRunner />
-// 计时器
+// Timer
 <TimeRunner showType="count" />
-// 倒计时
-<TimeRunner showType="2025-10-31" />
+// Countdown
+<TimeRunner showType="2026-10-31" />
 
-// 当前时间 + 翻牌效果
+// Current time + flip card
 <TimeRunner mode="card" />
-// 计时器 + 翻牌效果
+// Timer + flip card
 <TimeRunner mode="card" showType="count" />
-// 倒计时 + 翻牌效果
-<TimeRunner mode="card" showType="2025-10-31" />
+// Countdown + flip card
+<TimeRunner mode="card" showType="2026-10-31" />
 
-// 当前时间 + 翻转（左右）
+// Current time + horizontal flip
 <TimeRunner mode="cube-h" />
-// 计时器 + 翻转（左右）
+// Timer + horizontal flip
 <TimeRunner mode="cube-h" showType="count" />
-// 倒计时 + 翻转（左右）
-<TimeRunner mode="cube-h" showType="2025-10-31" />
+// Countdown + horizontal flip
+<TimeRunner mode="cube-h" showType="2026-10-31" />
 
-// 当前时间 + 翻转（上下）
+// Current time + vertical flip
 <TimeRunner mode="cube-v" />
-// 计时器 + 翻转（上下）
+// Timer + vertical flip
 <TimeRunner mode="cube-v" showType="count" />
-// 倒计时 + 翻转（上下）
-<TimeRunner mode="cube-v" showType="2025-10-31" />
+// Countdown + vertical flip
+<TimeRunner mode="cube-v" showType="2026-10-31" />
+
+// Current time + drift
+<TimeRunner mode="drift" />
+// Timer + drift
+<TimeRunner mode="drift" showType="count" />
+// Countdown + drift
+<TimeRunner mode="drift" showType="2026-10-31" />
 
 
 ```
 
-### 组件属性（props）
+### Component Props
 ```jsx
-/** 
- * 显示模式，默认：default
- * default: 当前时间  
- * count: 计时器  
- * 指定时间：倒计时。
+/**
+ * Display type (default: current time)
+ *
+ * default: show current time
+ * count: timer
+ * specific time: countdown
  */
 showType?: string;
-/** 
- * 动画模式，
- * card：卡片  
- * cube-v：上下翻转  
- * cube-h：左右翻转
- * drift：漂浮
+/**
+ * Animation mode
+ *
+ * card:   flip card
+ * cube-v: vertical flip
+ * cube-h: horizontal flip
+ * drift:  floating
  */
 mode?: TransMode;
-/** 倒计时结束后执行的方法 */
+/** Callback function executed when countdown finishes */
 finishCountFn?: Function;
-/** 尺寸，默认40 */
+/** Component size (default: 40) */
 size?: number;
-/** 自定义样式类名 */
+/** Custom class name */
 className?: string;
-/** 背景颜色 */
+/** Background color */
 bgColor?: string;
-/** 边框颜色 */
+/** Border color */
 borderColor?: string;
-/** 文字阴影颜色值 */
+/** Text shadow color */
 textShadowColor?: string;
 ```
 
-### 倒计时传入日期的格式
+### Countdown Date Format
 ```
 "YYYY-MM-DD",
 "YYYY/MM/DD",
@@ -103,56 +115,60 @@ textShadowColor?: string;
 "YYYY/MM/DD HH:mm:ss",
 ```
 
-### React版本
+### React Version
 ```
 "react": ">=16.8.0",
 "react-dom": ">=16.8.0"
 ```
 
 
-# 更新日志
+# Changelog
+
+## [1.1.4] - 2026-03-07
+### Changes
+- Added English README
 
 ## [1.1.3] - 2026-02-26
-### 更新内容
-- 修复数字字体没有生效的问题
+### Changes
+- Fixed an issue where the numeric font was not applied correctly
 
 ## [1.1.2] - 2026-02-25
-### 更新内容
-- 更改字体和引用路径
+### Changes
+- Updated font and reference paths
 
 ## [1.1.1] - 2026-02-24
-### 更新内容
-- 修复数字字体引用路径的问题
+### Changes
+- Fixed the numeric font reference path issue
 
 ## [1.1.0] - 2026-02-20
-### 更新内容
-- 增加数字字体
+### Changes
+- Added numeric font
 
 ## [1.0.5] - 2025-11-16
-### 更新内容
-- 更新Readme内容
+### Changes
+- Updated README content
 
 ## [1.0.4] - 2025-11-16
-### 更新内容
-- 更新Readme内容
+### Changes
+- Updated README content
 
 ## [1.0.3] - 2025-11-16
-### 更新内容【Breaking Change】
-- 移除 “time-runner/dist/time-runner.css”文件引入
-- 增加 textShadowColor（文字阴影颜色）属性
-- 更新Readme内容，增加功能演示地址。
+### Changes【Breaking Change】
+- Removed the time-runner/dist/time-runner.css import
+- Added textShadowColor prop
+- Updated README and added demo link
 
 
 ## [1.0.2] - 2025-10-11
-### 更新内容
-- 增加 mode = "drift" 效果
-- 更新Readme内容
+### Changes
+- Added mode = "drift" animation
+- Updated README content
 
 
 ## [1.0.1] - 2025-10-07
-### 更新内容
-- 更新readme内容
+### Changes
+- Updated README content
 
 
 ## [1.0.0] - 2025-10-07
-### 首次发布
+### Initial release
