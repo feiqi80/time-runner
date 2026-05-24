@@ -1,10 +1,10 @@
 /*!
  * @feiqi/time-runner v1.1.3
- * (c) 2025 Fei Qi/费祺
+ * (c) 2022 Fei Qi/费祺
  * Released under the MIT License.
  */
 import React, {useState, useRef, useEffect, memo, CSSProperties, useMemo} from "react";
-import { isValidTime, getTimeDiff, countTime } from "./Tools";
+import { isValidTime, getTimeDiff, countTime, getRandomClip } from "./Tools";
 import dayjs from "dayjs";
 import "./aStyle.less";
 
@@ -17,7 +17,7 @@ import "./aStyle.less";
  * drift:  漂浮
  *
  */
-type TransMode = "card" | "cube-v"| "cube-h" | "drift";
+type TransMode = "card" | "cube-v"| "cube-h" | "drift" | "cut";
 interface PropsType {
   /** 
    * 显示模式，默认：default
@@ -32,6 +32,7 @@ interface PropsType {
    * cube-v：上下翻转  
    * cube-h：左右翻转
    * drift： 漂浮
+   * cut: 切片
    */
   mode?: TransMode;
   /** 尺寸，默认40 */
@@ -48,7 +49,7 @@ interface PropsType {
   finishCountFn?: Function;
 }
 interface RefType {
-  t: number | null;
+  t: ReturnType<typeof setInterval> | null;
 }
 
 const f = "HH:mm:ss";
@@ -175,7 +176,7 @@ interface PropsOwn {
   size: number;
 }
 
-interface RefType {
+interface RefItemType {
   /** 暂存时间数字，翻牌结束后，跟随 trans 变量一起更新 */
   t: number
 }
@@ -184,12 +185,13 @@ interface RefType {
 const CardItem = (props: PropsOwn): React.ReactNode => {
   const { time, limit, mode, size } = props;
   const [trans, setTrans] = useState(false);
-  const tRef = useRef<RefType>({
+  const tRef = useRef<RefItemType>({
     t: time
   });
+  const cutRef = useRef<HTMLDivElement>(null);
 
   const driftStyle = useMemo(() => {
-    if (time !== tRef.current!.t) {
+    if (time !== tRef.current!.t && mode === "drift") {
       return {
         "--driftX": `${Math.floor(Math.random() * (-size - size + 1)) + size}px`,
         "--driftY": `${Math.floor(Math.random() * (-size*2 - size*2 + 1)) + size*2}px`,
@@ -198,7 +200,21 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
       } as CSSProperties
     }
     return null;    
-  }, [time, size])
+  }, [time, size, mode])
+
+
+  const cutStyle = useMemo(() => {
+    if (trans && mode === "cut") {
+      const { lPath, rPath, lTranslate, rTranslate } = getRandomClip(cutRef.current!);
+      return {
+        "--lPolygon": lPath,
+        "--rPolygon": rPath,
+        "--cutLTranslate": lTranslate,
+        "--cutRTranslate": rTranslate,
+      } as CSSProperties
+    }    
+    return null;
+  }, [trans, mode])
 
   /**
    * 跳过首次渲染
@@ -277,6 +293,21 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
         return (
           <div className={`drift font-num ${trans ? "run" : ""}`} data-digit={t} style={driftStyle}>
             {nextT}
+          </div>
+        )
+      }      
+      case "cut": {
+        return (
+          <div ref={cutRef} className={`cut font-num ${trans ? "run" : ""}`} style={cutStyle}>
+            <div>
+              <p>{t}</p>
+              <div className="l-line" />
+            </div>            
+            <div>
+              <p>{t}</p>
+              <div className="r-line" />
+            </div>            
+            <p>{nextT}</p>
           </div>
         )
       }

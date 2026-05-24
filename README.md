@@ -69,6 +69,13 @@ import { TimeRunner } from "time-runner";
 // Countdown + drift
 <TimeRunner mode="drift" showType="2026-10-31" />
 
+// Current time + cut
+<TimeRunner mode="cut" />
+// Timer + cut
+<TimeRunner mode="cut" showType="count" />
+// Countdown + drift
+<TimeRunner mode="cut" showType="2026-10-31" />
+
 
 ```
 
@@ -89,6 +96,7 @@ showType?: string;
  * cube-v: vertical flip
  * cube-h: horizontal flip
  * drift:  floating
+ * cut:    cut
  */
 mode?: TransMode;
 /** Callback function executed when countdown finishes */
@@ -123,6 +131,10 @@ textShadowColor?: string;
 
 
 # Changelog
+
+## [1.1.5] - 2026-05-24
+### Changes
+- Added mode = "cut" animation
 
 ## [1.1.4] - 2026-03-07
 ### Changes

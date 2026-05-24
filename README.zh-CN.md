@@ -69,6 +69,13 @@ import { TimeRunner } from "time-runner";
 // 倒计时 + 漂浮
 <TimeRunner mode="drift" showType="2026-10-31" />
 
+// 当前时间 + 切割
+<TimeRunner mode="cut" />
+// 计时器 + 切割
+<TimeRunner mode="cut" showType="count" />
+// 倒计时 + 切割
+<TimeRunner mode="cut" showType="2026-10-31" />
+
 
 ```
 
@@ -87,6 +94,7 @@ showType?: string;
  * cube-v：上下翻转  
  * cube-h：左右翻转
  * drift： 漂浮
+ * cut：   切割
  */
 mode?: TransMode;
 /** 倒计时结束后执行的方法 */
@@ -121,6 +129,10 @@ textShadowColor?: string;
 
 
 # 更新日志
+
+## [1.1.5] - 2026-05-24
+### 更新内容
+- 增加 mode = "cut" 效果
 
 ## [1.1.4] - 2026-03-07
 ### 更新内容
