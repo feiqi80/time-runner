@@ -188,3 +188,46 @@ export const getRandomClip = (dom: HTMLDivElement) => {
     rTranslate: type === 0 ? `translateX(${maxX}%)` : `translateY(${maxY}%)`,
   }
 }
+
+/**
+ * 根据传入的颜色色值的深浅比例，返回一个较深或较浅的颜色色值。
+ * 在0-255之间，就以128为分界线，大于128为亮色系，返回较深的色值，小于128为深色系，返回较浅的色值。
+ * 因为传入的内容格式不固定，所以这里通过浏览器来获取最终的颜色色值，反正也都是在浏览器里运行，减少心智负担。
+ * 
+ * @param color 颜色值，
+ * @param ratio 变化比例，越大，差别就越大。
+ */
+export const getMaskColor = (color: string, ratio = 0.3) => {
+  const div = document.createElement("div");
+  div.style.color = color;
+  document.body.appendChild(div);
+  const rgb = getComputedStyle(div).color;
+  document.body.removeChild(div);
+
+  const [r, g, b] = rgb.match(/\d+/g)!.slice(0, 3).map(Number);
+  const brightness = 0.299*r + 0.587*g + 0.114*b;
+  const isLight = brightness > 128;
+
+  const fn = (v: number) => {
+    if (isLight) {
+      return Math.round(v * (1 - ratio));
+    }
+
+    return Math.round(v + (255 - v) * ratio);
+  };
+
+  return (
+    "#" +
+    [fn(r), fn(g), fn(b)]
+      .map(v => v.toString(16).padStart(2, "0"))
+      .join("")
+      .toUpperCase()
+  );
+}
+
+/**
+ * 获取[0, 360]之间的随机角度
+ */
+export const getRandomDeg = () => {
+  return Math.floor(Math.random() * 361);
+}

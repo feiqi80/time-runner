@@ -97,6 +97,7 @@ showType?: string;
  * cube-h: horizontal flip
  * drift:  floating
  * cut:    cut
+ * erase:  erase the numeric
  */
 mode?: TransMode;
 /** Callback function executed when countdown finishes */
@@ -107,6 +108,8 @@ size?: number;
 className?: string;
 /** Background color */
 bgColor?: string;
+/** Numeric font color */
+numColor?: string;
 /** Border color */
 borderColor?: string;
 /** Text shadow color */
@@ -131,6 +134,11 @@ textShadowColor?: string;
 
 
 # Changelog
+
+## [1.1.6] - 2026-06-20
+### Changes
+- Added mode = "erase" animation
+- Add property "numColor" for customizing numeric font color
 
 ## [1.1.5] - 2026-05-24
 ### Changes

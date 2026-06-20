@@ -4,7 +4,7 @@
  * Released under the MIT License.
  */
 import React, {useState, useRef, useEffect, memo, CSSProperties, useMemo} from "react";
-import { isValidTime, getTimeDiff, countTime, getRandomClip } from "./Tools";
+import { isValidTime, getTimeDiff, countTime, getRandomClip, getMaskColor, getRandomDeg } from "./Tools";
 import dayjs from "dayjs";
 import "./aStyle.less";
 
@@ -17,7 +17,7 @@ import "./aStyle.less";
  * drift:  漂浮
  *
  */
-type TransMode = "card" | "cube-v"| "cube-h" | "drift" | "cut";
+type TransMode = "card" | "cube-v"| "cube-h" | "drift" | "cut" | "erase";
 interface PropsType {
   /** 
    * 显示模式，默认：default
@@ -41,6 +41,8 @@ interface PropsType {
   className?: string;
   /** 背景颜色 */
   bgColor?: string;
+  /** 数字颜色 */
+  numColor?: string;
   /** 边框颜色 */
   borderColor?: string;
   /** 文字阴影颜色值 */
@@ -57,7 +59,7 @@ const delay = 900;
 
 
 const TimeCountdown = (props: PropsType) => { 
-  const { mode, showType = "default", size = 40, className, bgColor, borderColor, textShadowColor, finishCountFn } = props; 
+  const { mode, showType = "default", size = 40, className, bgColor, numColor, borderColor, textShadowColor, finishCountFn } = props; 
   const [time, setTime] = useState(
     showType === "count" 
       ? countTime(0) 
@@ -79,8 +81,10 @@ const TimeCountdown = (props: PropsType) => {
     "--transy": `${-size}px`,
     "--delay": `${delay/1000}s`,
     "--bgColor": bgColor,
+    "--numColor": numColor,
     "--borderColor": borderColor,
     "--textShadow": textShadowColor ? `1px 2px 3px ${textShadowColor}` : "none",
+    "--transColor": getMaskColor(bgColor || "#333"),
   } as CSSProperties;
 
   useEffect(() => {
@@ -216,6 +220,18 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
     return null;
   }, [trans, mode])
 
+
+  const eraseStyle = useMemo(() => {
+    if (trans && mode === "erase") {
+      const startDeg = getRandomDeg();
+      return {
+        "--start-deg": `${startDeg}deg`,
+        "--deg": "360deg",
+      } as CSSProperties
+    }
+    return null;
+  }, [trans, mode])
+
   /**
    * 跳过首次渲染
    */
@@ -308,6 +324,14 @@ const CardItem = (props: PropsOwn): React.ReactNode => {
               <div className="r-line" />
             </div>            
             <p>{nextT}</p>
+          </div>
+        )
+      }
+      case "erase": {
+        return (
+          <div className={`erase font-num ${trans ? "run" : ""}`} data-digit={t}>
+            <p>{nextT}</p>
+            <div style={eraseStyle} />
           </div>
         )
       }

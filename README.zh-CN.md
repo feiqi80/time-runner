@@ -105,6 +105,8 @@ size?: number;
 className?: string;
 /** 背景颜色 */
 bgColor?: string;
+/** 数字颜色 */
+numColor?: string;
 /** 边框颜色 */
 borderColor?: string;
 /** 文字阴影颜色值 */
@@ -129,6 +131,11 @@ textShadowColor?: string;
 
 
 # 更新日志
+
+## [1.1.6] - 2026-06-20
+### Changes
+- 新增 mode = "erase"
+- 增加 numColor: 数字颜色
 
 ## [1.1.5] - 2026-05-24
 ### 更新内容
